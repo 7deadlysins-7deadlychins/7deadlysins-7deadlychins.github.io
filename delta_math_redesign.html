@@ -1,0 +1,295 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+nav{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:0.5px solid var(--color-border-tertiary);position:sticky;top:0;background:var(--color-background-primary);z-index:100}
+nav img{width:36px;height:36px;border-radius:8px;object-fit:cover}
+nav h1{font-size:18px;font-weight:500;color:var(--color-text-primary)}
+nav .search-wrap{flex:1;display:flex;align-items:center;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:20px;padding:6px 14px;gap:8px;max-width:400px;margin-left:auto}
+nav .search-wrap input{border:none;background:transparent;outline:none;font-size:14px;color:var(--color-text-primary);width:100%}
+nav .search-wrap input::placeholder{color:var(--color-text-tertiary)}
+nav .search-icon{font-size:13px;color:var(--color-text-tertiary)}
+
+.hero{padding:20px;display:grid;grid-template-columns:1fr 1fr 1fr;grid-template-rows:auto auto;gap:12px}
+.hero-card{position:relative;border-radius:16px;overflow:hidden;cursor:pointer;border:0.5px solid var(--color-border-tertiary)}
+.hero-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.3s}
+.hero-card:hover img{transform:scale(1.04)}
+.hero-card .overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.7) 0%,transparent 60%);display:flex;flex-direction:column;justify-content:flex-end;padding:14px}
+.hero-card .game-title{color:#fff;font-size:13px;font-weight:500}
+.hero-card .play-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(255,255,255,0.2);border:0.5px solid rgba(255,255,255,0.4);border-radius:20px;padding:4px 10px;color:#fff;font-size:11px;margin-top:5px;backdrop-filter:blur(4px)}
+.hero-card.big{grid-row:1/3;grid-column:1/2;height:320px}
+.hero-card.med{height:154px}
+.hero-card.med2{height:154px}
+.hero-card.tall{grid-row:1/3;height:320px}
+.hot-badge{position:absolute;top:10px;left:10px;background:#E24B4A;color:#fff;font-size:10px;font-weight:500;padding:3px 8px;border-radius:20px}
+.new-badge{position:absolute;top:10px;left:10px;background:#1D9E75;color:#fff;font-size:10px;font-weight:500;padding:3px 8px;border-radius:20px}
+
+.section{padding:0 20px 20px}
+.section-header{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.section-header h2{font-size:16px;font-weight:500;color:var(--color-text-primary)}
+.section-header .pill{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:20px;padding:3px 10px;font-size:12px;color:var(--color-text-secondary)}
+.category-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.category-row::-webkit-scrollbar{display:none}
+.cat-btn{flex-shrink:0;padding:6px 14px;border-radius:20px;border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);font-size:13px;color:var(--color-text-secondary);cursor:pointer;transition:all 0.15s;font-family:var(--font-sans)}
+.cat-btn.active{background:var(--color-text-primary);color:var(--color-background-primary);border-color:var(--color-text-primary)}
+.cat-btn:hover:not(.active){background:var(--color-background-secondary)}
+
+.game-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:10px}
+.game-tile{border-radius:12px;overflow:hidden;position:relative;cursor:pointer;border:0.5px solid var(--color-border-tertiary);aspect-ratio:1;background:var(--color-background-secondary)}
+.game-tile img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.25s}
+.game-tile:hover img{transform:scale(1.08)}
+.game-tile .tile-name{position:absolute;bottom:0;left:0;right:0;padding:5px 7px;background:rgba(0,0,0,0.6);color:#fff;font-size:10px;font-weight:500;opacity:0;transition:opacity 0.2s}
+.game-tile:hover .tile-name{opacity:1}
+
+.featured-row{display:flex;gap:12px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.featured-row::-webkit-scrollbar{display:none}
+.feat-card{flex-shrink:0;width:160px;border-radius:14px;overflow:hidden;position:relative;cursor:pointer;border:0.5px solid var(--color-border-tertiary);height:200px;background:var(--color-background-secondary)}
+.feat-card img{width:100%;height:100%;object-fit:cover;transition:transform 0.3s}
+.feat-card:hover img{transform:scale(1.05)}
+.feat-card .overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.75) 0%,transparent 55%);display:flex;flex-direction:column;justify-content:flex-end;padding:12px}
+.feat-card .game-title{color:#fff;font-size:12px;font-weight:500}
+
+.streak-bar{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:14px;padding:14px 16px;margin:0 20px 20px;display:flex;align-items:center;gap:14px}
+.streak-icon{font-size:22px}
+.streak-text h3{font-size:14px;font-weight:500;color:var(--color-text-primary)}
+.streak-text p{font-size:12px;color:var(--color-text-secondary)}
+.streak-dots{display:flex;gap:5px;margin-left:auto}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--color-border-tertiary)}
+.dot.filled{background:#E24B4A}
+
+.hidden{display:none}
+.all-section{display:block}
+</style>
+
+<nav>
+  <img src="https://via.placeholder.com/36x36/7F77DD/ffffff?text=D" alt="logo">
+  <h1>Delta Math</h1>
+  <div class="search-wrap">
+    <span class="search-icon">&#x2315;</span>
+    <input type="text" placeholder="Search games..." id="searchInput">
+  </div>
+</nav>
+
+<div id="mainContent">
+  <div class="hero">
+    <div class="hero-card big" onclick="openGame('games/ovo/')">
+      <img src="https://via.placeholder.com/400x320/7F77DD/ffffff?text=OvO" alt="OvO">
+      <div class="hot-badge">HOT</div>
+      <div class="overlay">
+        <span class="game-title">OvO</span>
+        <span class="play-pill">&#9654; Play now</span>
+      </div>
+    </div>
+    <div class="hero-card med" onclick="openGame('games/vex7/')">
+      <img src="https://via.placeholder.com/300x154/1D9E75/ffffff?text=Vex+7" alt="Vex 7">
+      <div class="overlay"><span class="game-title">Vex 7</span></div>
+    </div>
+    <div class="hero-card med" onclick="openGame('games/retro-bowl/')">
+      <img src="https://via.placeholder.com/300x154/D85A30/ffffff?text=Retro+Bowl" alt="Retro Bowl">
+      <div class="new-badge">NEW</div>
+      <div class="overlay"><span class="game-title">Retro Bowl</span></div>
+    </div>
+    <div class="hero-card med2" onclick="openGame('games/slope/')">
+      <img src="https://via.placeholder.com/300x154/185FA5/ffffff?text=Slope" alt="Slope">
+      <div class="overlay"><span class="game-title">Slope</span></div>
+    </div>
+    <div class="hero-card med2" onclick="openGame('games/drive-mad/')">
+      <img src="https://via.placeholder.com/300x154/BA7517/ffffff?text=Drive+Mad" alt="Drive Mad">
+      <div class="overlay"><span class="game-title">Drive Mad</span></div>
+    </div>
+  </div>
+
+  <div class="streak-bar">
+    <span class="streak-icon">&#128293;</span>
+    <div class="streak-text">
+      <h3>Daily streak</h3>
+      <p>Come back tomorrow to keep it going</p>
+    </div>
+    <div class="streak-dots">
+      <div class="dot filled"></div>
+      <div class="dot filled"></div>
+      <div class="dot filled"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <h2>Recently played</h2>
+      <span class="pill">3 games</span>
+    </div>
+    <div class="featured-row">
+      <div class="feat-card" onclick="openGame('games/ovo/')">
+        <img src="https://via.placeholder.com/160x200/7F77DD/ffffff?text=OvO" alt="OvO">
+        <div class="overlay"><span class="game-title">OvO</span></div>
+      </div>
+      <div class="feat-card" onclick="openGame('games/slope/')">
+        <img src="https://via.placeholder.com/160x200/185FA5/ffffff?text=Slope" alt="Slope">
+        <div class="overlay"><span class="game-title">Slope</span></div>
+      </div>
+      <div class="feat-card" onclick="openGame('games/moto-x3m/')">
+        <img src="https://via.placeholder.com/160x200/D85A30/ffffff?text=Moto+X3M" alt="Moto X3M">
+        <div class="overlay"><span class="game-title">Moto X3M</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-header">
+      <h2>Browse</h2>
+    </div>
+    <div class="category-row" id="catRow">
+      <button class="cat-btn active" data-cat="all">All</button>
+      <button class="cat-btn" data-cat="action">Action</button>
+      <button class="cat-btn" data-cat="racing">Racing</button>
+      <button class="cat-btn" data-cat="sports">Sports</button>
+      <button class="cat-btn" data-cat="puzzle">Puzzle</button>
+      <button class="cat-btn" data-cat="idle">Idle</button>
+      <button class="cat-btn" data-cat="io">IO Games</button>
+      <button class="cat-btn" data-cat="multiplayer">Multiplayer</button>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="game-grid" id="gameGrid"></div>
+  </div>
+</div>
+
+<div id="searchResults" class="section hidden">
+  <div class="section-header"><h2 id="searchResultsTitle">Results</h2></div>
+  <div class="game-grid" id="searchGrid"></div>
+</div>
+
+<script>
+const games = [
+  {name:"Bob the Robber 2",href:"games/bob-the-robber-2/",img:"https://via.placeholder.com/100/534AB7/fff?text=BtR",cat:"action"},
+  {name:"Vex 7",href:"games/vex7/",img:"https://via.placeholder.com/100/1D9E75/fff?text=V7",cat:"action"},
+  {name:"Vex 6",href:"games/vex6/",img:"https://via.placeholder.com/100/0F6E56/fff?text=V6",cat:"action"},
+  {name:"Minecraft",href:"games/minecraft/",img:"https://via.placeholder.com/100/3B6D11/fff?text=MC",cat:"action"},
+  {name:"Moto X3M",href:"games/moto-x3m/",img:"https://via.placeholder.com/100/D85A30/fff?text=MX3",cat:"racing"},
+  {name:"Retro Bowl",href:"games/retro-bowl/",img:"https://via.placeholder.com/100/993C1D/fff?text=RB",cat:"sports"},
+  {name:"Drive Mad",href:"games/drive-mad/",img:"https://via.placeholder.com/100/BA7517/fff?text=DM",cat:"racing"},
+  {name:"Slope",href:"games/slope/",img:"https://via.placeholder.com/100/185FA5/fff?text=SL",cat:"action"},
+  {name:"Moto X3M 2",href:"games/motox3m2/",img:"https://via.placeholder.com/100/993C1D/fff?text=MX2",cat:"racing"},
+  {name:"Idle Breakout",href:"games/Idle Breakout/",img:"https://via.placeholder.com/100/534AB7/fff?text=IB",cat:"idle"},
+  {name:"Getaway Shootout",href:"games/getaway-shootout/",img:"https://via.placeholder.com/100/A32D2D/fff?text=GS",cat:"multiplayer"},
+  {name:"BitLife",href:"games/bitlife/",img:"https://via.placeholder.com/100/2C2C2A/fff?text=BL",cat:"idle"},
+  {name:"Subway Surfers NY",href:"games/subway-surfers-ny/",img:"https://via.placeholder.com/100/185FA5/fff?text=SS",cat:"action"},
+  {name:"Just Fall",href:"games/just-fall/",img:"https://via.placeholder.com/100/D4537E/fff?text=JF",cat:"multiplayer"},
+  {name:"2048",href:"games/2048/",img:"https://via.placeholder.com/100/BA7517/fff?text=2048",cat:"puzzle"},
+  {name:"Vex 3",href:"games/vex3/",img:"https://via.placeholder.com/100/1D9E75/fff?text=V3",cat:"action"},
+  {name:"Vex 4",href:"games/vex4/",img:"https://via.placeholder.com/100/0F6E56/fff?text=V4",cat:"action"},
+  {name:"Vex 5",href:"games/vex5/",img:"https://via.placeholder.com/100/085041/fff?text=V5",cat:"action"},
+  {name:"Cookie Clicker",href:"games/cookie-clicker/",img:"https://via.placeholder.com/100/BA7517/fff?text=CC",cat:"idle"},
+  {name:"Poly Track",href:"games/poly-track/",img:"https://via.placeholder.com/100/378ADD/fff?text=PT",cat:"racing"},
+  {name:"Bloxorz",href:"games/bloxorz/",img:"https://via.placeholder.com/100/534AB7/fff?text=BX",cat:"puzzle"},
+  {name:"Subway Surfers Tokyo",href:"games/ss-tokyo/",img:"https://via.placeholder.com/100/D85A30/fff?text=SST",cat:"action"},
+  {name:"Stickman Hook",href:"games/smhook/",img:"https://via.placeholder.com/100/7F77DD/fff?text=SH",cat:"action"},
+  {name:"Ragdoll Archers",href:"games/r-a/",img:"https://via.placeholder.com/100/993C1D/fff?text=RA",cat:"action"},
+  {name:"Among Us",href:"games/a-u/",img:"https://via.placeholder.com/100/D4537E/fff?text=AU",cat:"multiplayer"},
+  {name:"OvO",href:"games/ovo/",img:"https://via.placeholder.com/100/7F77DD/fff?text=OvO",cat:"action"},
+  {name:"Arrow Master",href:"games/a-m/",img:"https://via.placeholder.com/100/D85A30/fff?text=AM",cat:"action"},
+  {name:"Monkey Mart",href:"games/m-m/",img:"https://via.placeholder.com/100/BA7517/fff?text=MM",cat:"idle"},
+  {name:"Snow Rider",href:"games/s-r/",img:"https://via.placeholder.com/100/378ADD/fff?text=SR",cat:"racing"},
+  {name:"Basket Random",href:"games/basket-random/",img:"https://via.placeholder.com/100/E24B4A/fff?text=BR",cat:"sports"},
+  {name:"Slow Roads",href:"games/slow-roads/",img:"https://via.placeholder.com/100/3B6D11/fff?text=SlR",cat:"racing"},
+  {name:"Ragdoll Hit",href:"games/r-h/",img:"https://via.placeholder.com/100/A32D2D/fff?text=RH",cat:"action"},
+  {name:"Rooftop Snipers",href:"games/rooftop-snipers/",img:"https://via.placeholder.com/100/2C2C2A/fff?text=RS",cat:"multiplayer"},
+  {name:"Drift Boss",href:"games/drift-boss/",img:"https://via.placeholder.com/100/854F0B/fff?text=DB",cat:"racing"},
+  {name:"Basketball Stars",href:"games/basketball-stars/",img:"https://via.placeholder.com/100/E24B4A/fff?text=BS",cat:"sports"},
+  {name:"Incredibox",href:"games/incredibox/",img:"https://via.placeholder.com/100/534AB7/fff?text=INC",cat:"puzzle"},
+  {name:"1v1.lol",href:"games/1v1lol/",img:"https://via.placeholder.com/100/A32D2D/fff?text=1v1",cat:"multiplayer"},
+  {name:"World's Hardest Game",href:"games/hard-game/",img:"https://via.placeholder.com/100/E24B4A/fff?text=WHG",cat:"puzzle"},
+  {name:"Temple Run 2",href:"games/t-r-2/",img:"https://via.placeholder.com/100/3B6D11/fff?text=TR2",cat:"action"},
+  {name:"Eggy Car",href:"games/eggy-car/",img:"https://via.placeholder.com/100/EF9F27/fff?text=EC",cat:"racing"},
+  {name:"Red Ball 4",href:"games/red-ball/",img:"https://via.placeholder.com/100/E24B4A/fff?text=RB4",cat:"action"},
+  {name:"Spacebar Clicker",href:"games/spacebar-clicker/",img:"https://via.placeholder.com/100/534AB7/fff?text=SC",cat:"idle"},
+  {name:"Paper.io 2",href:"games/paper.io-2/",img:"https://via.placeholder.com/100/185FA5/fff?text=P2",cat:"io"},
+  {name:"UltraKill",href:"games/ultrakill/",img:"https://via.placeholder.com/100/A32D2D/fff?text=UK",cat:"action"},
+  {name:"Little Alchemy 2",href:"games/little/",img:"https://via.placeholder.com/100/EF9F27/fff?text=LA2",cat:"puzzle"},
+  {name:"Math Duck",href:"games/math-duck/",img:"https://via.placeholder.com/100/1D9E75/fff?text=MD",cat:"puzzle"},
+  {name:"Drift Hunters",href:"games/drift-hunters/",img:"https://via.placeholder.com/100/854F0B/fff?text=DH",cat:"racing"},
+  {name:"Soccer Random",href:"games/soccer-random/",img:"https://via.placeholder.com/100/639922/fff?text=SoR",cat:"sports"},
+  {name:"Volley Random",href:"games/volley-random/",img:"https://via.placeholder.com/100/185FA5/fff?text=VR",cat:"sports"},
+  {name:"Boxing Random",href:"games/boxing-random/",img:"https://via.placeholder.com/100/E24B4A/fff?text=BxR",cat:"sports"},
+  {name:"Snowball.io",href:"/snowball",img:"https://via.placeholder.com/100/378ADD/fff?text=SN",cat:"io"},
+  {name:"Yohoho.io",href:"games/yoho/",img:"https://via.placeholder.com/100/D85A30/fff?text=YH",cat:"io"},
+  {name:"Duck Life 3",href:"games/dl3/",img:"https://via.placeholder.com/100/EF9F27/fff?text=DL3",cat:"idle"},
+  {name:"Archery World Tour",href:"games/archery/",img:"https://via.placeholder.com/100/3B6D11/fff?text=AW",cat:"sports"},
+  {name:"Happy Glass",href:"games/happy-glass/",img:"https://via.placeholder.com/100/185FA5/fff?text=HG",cat:"puzzle"},
+  {name:"Madalin Stunt Cars 2",href:"games/msc2/",img:"https://via.placeholder.com/100/993C1D/fff?text=MSC",cat:"racing"},
+  {name:"Penalty Kick Online",href:"games/pko/",img:"https://via.placeholder.com/100/639922/fff?text=PKO",cat:"sports"},
+  {name:"Idle Mining Empire",href:"games/mining/",img:"https://via.placeholder.com/100/854F0B/fff?text=IM",cat:"idle"},
+  {name:"Retro Bowl College",href:"/retro-bowl-college",img:"https://via.placeholder.com/100/993C1D/fff?text=RBC",cat:"sports"},
+  {name:"Hole.io",href:"games/holeio/",img:"https://via.placeholder.com/100/534AB7/fff?text=HIO",cat:"io"},
+  {name:"Geometry Dash",href:"/geometry-dash",img:"https://via.placeholder.com/100/D4537E/fff?text=GD",cat:"action"},
+  {name:"Smash Karts",href:"/smash-karts/",img:"https://via.placeholder.com/100/E24B4A/fff?text=SK",cat:"racing"},
+  {name:"Run 3",href:"/run3/tn6pS9dCf37xAhkJv",img:"https://via.placeholder.com/100/185FA5/fff?text=R3",cat:"action"},
+  {name:"Tiny Fishing",href:"/games/tiny-fishing",img:"https://via.placeholder.com/100/1D9E75/fff?text=TF",cat:"idle"},
+  {name:"Fruit Ninja",href:"games/fruit-ninja/",img:"https://via.placeholder.com/100/E24B4A/fff?text=FN",cat:"action"},
+  {name:"Gold Digger FRVR",href:"games/gold-digger/",img:"https://via.placeholder.com/100/854F0B/fff?text=GD",cat:"idle"},
+  {name:"Tunnel Rush",href:"games/tunnel-rush/",img:"https://via.placeholder.com/100/D4537E/fff?text=TR",cat:"action"},
+  {name:"Crossy Road",href:"/c-ro",img:"https://via.placeholder.com/100/EF9F27/fff?text=CR",cat:"action"},
+  {name:"Wheelie Bike",href:"/wheelie-bike/",img:"https://via.placeholder.com/100/3B6D11/fff?text=WB",cat:"racing"},
+  {name:"Parkour Race",href:"/parkour-race",img:"https://via.placeholder.com/100/534AB7/fff?text=PR",cat:"action"},
+  {name:"Clash Royale",href:"games/clash/",img:"https://via.placeholder.com/100/378ADD/fff?text=CR",cat:"multiplayer"},
+  {name:"Bottle Flip",href:"games/bottle-flip/",img:"https://via.placeholder.com/100/185FA5/fff?text=BF",cat:"puzzle"},
+  {name:"Bridge Race",href:"games/bridge-race/",img:"https://via.placeholder.com/100/D85A30/fff?text=BrR",cat:"racing"},
+  {name:"Blumgi Slime",href:"games/blumgi-slime/",img:"https://via.placeholder.com/100/1D9E75/fff?text=BSL",cat:"action"},
+  {name:"Blumgi Rocket",href:"games/blumgi-rocket/",img:"https://via.placeholder.com/100/A32D2D/fff?text=BRK",cat:"action"},
+  {name:"Golf Orbit",href:"games/golf-orbit/",img:"https://via.placeholder.com/100/3B6D11/fff?text=GO",cat:"sports"},
+  {name:"Spiral Roll",href:"games/spiral-roll/",img:"https://via.placeholder.com/100/534AB7/fff?text=SPR",cat:"puzzle"},
+];
+
+let activeCat = 'all';
+
+function renderGrid(list, container){
+  container.innerHTML = list.map(g=>`
+    <div class="game-tile" onclick="location.href='${g.href}'">
+      <img src="${g.img}" alt="${g.name}" loading="lazy">
+      <div class="tile-name">${g.name}</div>
+    </div>
+  `).join('');
+}
+
+function openGame(href){ location.href = href; }
+
+function filterGames(){
+  const filtered = activeCat === 'all' ? games : games.filter(g=>g.cat===activeCat);
+  renderGrid(filtered, document.getElementById('gameGrid'));
+}
+
+document.getElementById('catRow').addEventListener('click', e=>{
+  const btn = e.target.closest('.cat-btn');
+  if(!btn) return;
+  document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  activeCat = btn.dataset.cat;
+  filterGames();
+});
+
+const searchInput = document.getElementById('searchInput');
+const mainContent = document.getElementById('mainContent');
+const searchResults = document.getElementById('searchResults');
+const searchGrid = document.getElementById('searchGrid');
+const searchTitle = document.getElementById('searchResultsTitle');
+
+searchInput.addEventListener('input', ()=>{
+  const q = searchInput.value.trim().toLowerCase();
+  if(!q){
+    mainContent.classList.remove('hidden');
+    searchResults.classList.add('hidden');
+    return;
+  }
+  mainContent.classList.add('hidden');
+  searchResults.classList.remove('hidden');
+  const hits = games.filter(g=>g.name.toLowerCase().includes(q));
+  searchTitle.textContent = hits.length ? `${hits.length} result${hits.length!==1?'s':''} for "${searchInput.value}"` : `No results for "${searchInput.value}"`;
+  renderGrid(hits, searchGrid);
+});
+
+filterGames();
+</script>
