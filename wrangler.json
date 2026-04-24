@@ -2,6 +2,10 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "education",
   "compatibility_date": "2026-04-24",
+  "main": "src/index.ts",
+  "assets": {
+    "directory": "."
+  },
   "observability": {
     "enabled": false,
     "head_sampling_rate": 1,
